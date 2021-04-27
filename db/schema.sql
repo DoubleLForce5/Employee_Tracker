@@ -1,4 +1,6 @@
--- DROP DATABASE IF EXISTS employee_trackerDB;
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+
+DROP DATABASE IF EXISTS employee_trackerDB;
 
 CREATE DATABASE employee_trackerDB;
 
