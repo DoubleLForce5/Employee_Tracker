@@ -60,15 +60,19 @@ const start = () => {
           break;
 
         case 'View roles':
+          viewRoles();
           break;
 
         case 'View employees':
+          viewEmployees();
           break;
 
         case 'Update an employee\'s role':
+          // updateEmployeeRole();
           break;
 
         case 'Update employee managers':
+          // updateEmployeeManager();
           break;
 
         case 'View employees by manager':
@@ -203,7 +207,7 @@ const addEmployee = () => {
           },
           (err, res) => {
             if (err) throw err;
-            console.log('Employee successfully add!')
+            console.log('Employee successfully add!');
             start();
           });
       });
@@ -213,10 +217,79 @@ const addEmployee = () => {
 const viewDepartment = () => {
   connection.query('SELECT * FROM department', (err, res) => {
     if (err) throw err;
-    console.table(res);
-    start()
-  })
-}
+    res.forEach((name) => {
+      console.table(name.name);
+    });
+    start();
+  });
+};
+
+const viewRoles = () => {
+  connection.query('SELECT * FROM role', (err,res) => {
+    if (err) throw err; 
+    res.forEach((title) => {
+      console.table(title.title);
+    });
+    start();
+  });
+};
+
+const viewEmployees = () => {
+  connection.query('SELECT * FROM employee', (err, res) => {
+    if (err) throw err;
+    res.forEach((name) => {
+      console.log(name.first_name, name.last_name)
+    });
+    start();
+  });
+};
+
+// const updateEmployeeManager = () => {
+
+// }
+// const updateEmployeeRole = () => {
+//     // which emp would you like to update?
+//       // select employee to update 
+//       // array of employee's info 
+//         // grab employee's current role 
+//         // select new role from available roles
+//         // change role
+//   // connection.query('SELECT * FROM employee', (err, results) => {
+//   //   if (err) throw err;
+//   //     inquirer
+//   //       .prompt([{
+//   //         type: 'list',
+//   //         name: 'choiceOne', 
+//   //         message: 'Please select an employee to update',
+//   //         choices: function () {
+//   //           const empArray = [];
+//   //           results.forEach(({
+//   //             employee 
+//   //           }) => {
+//   //             empArray.push(employee);
+//   //           });
+//   //           return empArray
+//   //         },
+//   //       },
+//   //     {
+//   //       type: 'list',
+//   //       name: 'addOrCreate',
+//   //       message: 'add or creat?',
+//   //       choices: [ 'add', 'create']
+//   //     }])
+//   //     .then ((response) => {
+//   //       if (response === 'add'){
+
+//   //       } else if (response === 'create'){
+//   //         addRole()
+//   //       } else if (err) throw err; 
+//   //       console.log()
+//   //     }) 
+//   // });
+
+//   // connection.query('SELECT * FROM role', )
+// }
+
 
 
 
