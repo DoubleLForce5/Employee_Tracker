@@ -139,9 +139,13 @@ const addRole = () => {
           choices: function () {
             const deptArray = [];
             results.forEach(({
-              name, id
+              name,
+              id
             }) => {
-              deptArray.push({name: name, value: id});
+              deptArray.push({
+                name: name,
+                value: id
+              });
             });
             console.log(deptArray);
             return deptArray;
@@ -186,15 +190,19 @@ const addEmployee = () => {
           choices: function () {
             const roleArray = [];
             results.forEach(({
-              title, id
+              title,
+              id
             }) => {
-              roleArray.push({name: title, value: id});
+              roleArray.push({
+                name: title,
+                value: id
+              });
             });
             console.log(results)
             return roleArray;
-            
+
           },
-         
+
         },
         {
           type: 'input',
@@ -207,7 +215,8 @@ const addEmployee = () => {
           message: 'What is the last name of the employee you are adding?'
         },
       ])
-      .then((answer) => { console.log(answer)
+      .then((answer) => {
+        console.log(answer)
         connection.query('INSERT INTO employee SET ?', {
             first_name: answer.firstName,
             last_name: answer.lastName,
@@ -233,8 +242,8 @@ const viewDepartment = () => {
 };
 
 const viewRoles = () => {
-  connection.query('SELECT * FROM role', (err,res) => {
-    if (err) throw err; 
+  connection.query('SELECT * FROM role', (err, res) => {
+    if (err) throw err;
     res.forEach((title) => {
       console.table(title.title);
     });
@@ -252,111 +261,90 @@ const viewEmployees = () => {
   });
 };
 
-
-
-const employee = () => {
-  connection.query('SELECT * FROM employee', (err, results) => {
+const updateEmployeeRole = () => {
+  // Fetch all employees from the database
+  const empSelected = connection.query('SELECT * FROM employee', (err, empResults) => {
     if (err) throw err;
-    console.log(results)
-      inquirer
-        .prompt([{
-          type: 'list',
-          name: 'choiceOne', 
-          message: 'Please select an employee to update',
-          choices: function () {
-            const empArray = [];
-            results.forEach(( employee ) => {
-              empArray.push(employee.first_name + ", "  + employee.last_name);
-            });
-            // console.log(empArray)
-            return empArray
-          }
-        }]
-        )
-}})
+    // Map all of the employees to Inquirer objects
+    console.log(empResults)
+    let empChoice = empResults.map(employee => {
+      return {
+        name: `${employee.first_name} ${employee.last_name}`,
+        value: employee.id
+      };
+    });
+    console.log(empChoice)
+  });
+  // console.log(employeeChoice)
 
-const xyz = () => {
-  connection.query('SELECT * FROM role', (err, results) => {
+  // Fetch all roles from the database
+  const roleSelected = connection.query('SELECT * FROM role', (err, roleResults) => {
     if (err) throw err;
-    inquirer
-      .prompt([{
+    // Map all of the roles to Inquirer objects
+    let roleChoice = roleResults.map(role => {
+      return {
+        name: `${role.title}`,
+        value: `${role.id}`
+      };
+    });
+    console.log(roleChoice)
+  });
+  // console.log(roleChoice)
+  // Use Inquirer to ask which employee & role to select (and log responses)
+  inquirer
+    .prompt([{
+        type: 'list',
+        name: 'employee',
+        message: 'Please select an employee to update',
+        choices: ,
+        // function () {
+        //   const empArray = [];
+        //   empChoice.forEach((employee) => {
+        //     empArray.push(employee.first_name + ", " + employee.last_name);
+        //   });
+          // console.log(empArray)
+          // console.log(empArray)
+        // }
+      },
+      {
         type: 'list',
         name: 'role',
-        message: 'Please choose an new role for this employee',
-        choices: function () {
+        message: 'What new role will this employee hold?',
+        choices: 
+        function () {
           const roleArray = [];
-          results.forEach((role) => {
-            roleArray.push(role.id, role.title, role.department_id);
+          roleChoice.forEach(({
+            title,
+            id
+          }) => {
+            roleArray.push({
+              name: title,
+              value: id
+            });
           });
-          return roleArray
-        }
+          // console.log(results)
+          // console.log(roleArray);
+        },
       }
-      ])
-  })
-
-}
-
-const updateEmployeeRole = () => {
-employee();
-xyz();
-
-
-    // which emp would you like to update?
-      // select employee to update 
-      // array of employee's info 
-        // grab employee's current role 
-        // select new role from available roles
-        // change role
-  // connection.query('SELECT * FROM employee', (err, results) => {
-  //   if (err) throw err;
-  //   console.log(results)
-  //     inquirer
-  //       .prompt([{
-  //         type: 'list',
-  //         name: 'choiceOne', 
-  //         message: 'Please select an employee to update',
-  //         choices: function () {
-  //           const empArray = [];
-  //           results.forEach(( employee ) => {
-  //             empArray.push(employee.first_name + ", "  + employee.last_name);
-  //           });
-  //           // console.log(empArray)
-  //           return empArray
-  //         }
-  //       }]
-  //       )
-      // .then ((answer) => { console.log(answer)
-      //   connection.query('SELECT * FROM role', (err, results) => {
-      //     if (err) throw err;
-      //     inquirer
-      //       .prompt([{
-      //         type: 'list',
-      //         name: 'role',
-      //         message: 'Please choose an new role for this employee',
-      //         choices: function () {
-      //           const roleArray = [];
-      //           results.forEach((role) => {
-      //             roleArray.push(role.id, role.title, role.department_id);
-      //           });
-      //           return roleArray
-      //         }
-      //       }
-      //       ])
-      //   })
-      // })
-       
-  // }
-  // );
-
-
-}
+    ])
+   
+    
+};
 
 
 
-// Something like this.....
-// choices: [{name: 'John Doe', value: 1}, {name: 'Other dude', value: 2}]
-// .then(
-// returns 1 (this 1 represents John Doe)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 connection.connect((err) => {
