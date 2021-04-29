@@ -252,16 +252,9 @@ const viewEmployees = () => {
   });
 };
 
-// const updateEmployeeManager = () => {
 
-// }
-const updateEmployeeRole = () => {
-    // which emp would you like to update?
-      // select employee to update 
-      // array of employee's info 
-        // grab employee's current role 
-        // select new role from available roles
-        // change role
+
+const employee = () => {
   connection.query('SELECT * FROM employee', (err, results) => {
     if (err) throw err;
     console.log(results)
@@ -275,27 +268,87 @@ const updateEmployeeRole = () => {
             results.forEach(( employee ) => {
               empArray.push(employee.first_name + ", "  + employee.last_name);
             });
-            console.log(empArray)
+            // console.log(empArray)
             return empArray
-          },
-        },
-      {
+          }
+        }]
+        )
+}})
+
+const xyz = () => {
+  connection.query('SELECT * FROM role', (err, results) => {
+    if (err) throw err;
+    inquirer
+      .prompt([{
         type: 'list',
-        name: 'addOrCreate',
-        message: 'add or creat?',
-        choices: [ 'add', 'create']
-      }])
-      .then ((response) => {
-        if (response === 'add'){
+        name: 'role',
+        message: 'Please choose an new role for this employee',
+        choices: function () {
+          const roleArray = [];
+          results.forEach((role) => {
+            roleArray.push(role.id, role.title, role.department_id);
+          });
+          return roleArray
+        }
+      }
+      ])
+  })
 
-        } else if (response === 'create'){
-          addRole()
-        } else if (err) throw err; 
-        console.log()
-      }) 
-  });
+}
 
-  connection.query('SELECT * FROM role', )
+const updateEmployeeRole = () => {
+employee();
+xyz();
+
+
+    // which emp would you like to update?
+      // select employee to update 
+      // array of employee's info 
+        // grab employee's current role 
+        // select new role from available roles
+        // change role
+  // connection.query('SELECT * FROM employee', (err, results) => {
+  //   if (err) throw err;
+  //   console.log(results)
+  //     inquirer
+  //       .prompt([{
+  //         type: 'list',
+  //         name: 'choiceOne', 
+  //         message: 'Please select an employee to update',
+  //         choices: function () {
+  //           const empArray = [];
+  //           results.forEach(( employee ) => {
+  //             empArray.push(employee.first_name + ", "  + employee.last_name);
+  //           });
+  //           // console.log(empArray)
+  //           return empArray
+  //         }
+  //       }]
+  //       )
+      // .then ((answer) => { console.log(answer)
+      //   connection.query('SELECT * FROM role', (err, results) => {
+      //     if (err) throw err;
+      //     inquirer
+      //       .prompt([{
+      //         type: 'list',
+      //         name: 'role',
+      //         message: 'Please choose an new role for this employee',
+      //         choices: function () {
+      //           const roleArray = [];
+      //           results.forEach((role) => {
+      //             roleArray.push(role.id, role.title, role.department_id);
+      //           });
+      //           return roleArray
+      //         }
+      //       }
+      //       ])
+      //   })
+      // })
+       
+  // }
+  // );
+
+
 }
 
 
@@ -310,4 +363,4 @@ connection.connect((err) => {
   if (err) throw err;
   console.log(`connected as id ${connection.threadId}`);
   start();
-});
+})
