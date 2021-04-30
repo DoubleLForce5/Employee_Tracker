@@ -17,7 +17,6 @@ const connection = mysql.createConnection({
   database: 'employee_trackerDB',
 });
 
-
 const start = () => {
   inquirer
     .prompt({
@@ -32,12 +31,6 @@ const start = () => {
         'View roles',
         'View employees',
         'Update an employee\'s role',
-        'Update employee managers',
-        'View employees by manager',
-        'Delete a department',
-        'Delete a role',
-        'Delete an employee',
-        'View the total utilized budget of a department',
         'Quit'
       ]
     })
@@ -69,29 +62,6 @@ const start = () => {
 
         case 'Update an employee\'s role':
           updateEmployeeRole();
-          break;
-
-        case 'Update employee managers':
-          // updateEmployeeManager();
-          break;
-
-        case 'View employees by manager':
-          // which manager do you want to see employees from 
-          break;
-
-        case 'Delete a department':
-          break;
-
-        case 'Delete a role':
-          break;
-
-        case 'Delete an employee':
-          break
-
-        case 'Delete an employee':
-          break;
-
-        case 'View the total utilized budget of a department':
           break;
 
         case 'Quit':
@@ -147,7 +117,7 @@ const addRole = () => {
                 value: id
               });
             });
-            console.log(deptArray);
+            // console.log(deptArray);
             return deptArray;
           },
         },
@@ -163,7 +133,7 @@ const addRole = () => {
         },
       ])
       .then((answer) => {
-        console.log(answer)
+        // console.log(answer)
         connection.query('INSERT INTO role SET ?', {
             title: answer.title,
             salary: answer.salary,
@@ -198,7 +168,7 @@ const addEmployee = () => {
                 value: id
               });
             });
-            console.log(results)
+            // console.log(results)
             return roleArray;
 
           },
@@ -231,8 +201,6 @@ const addEmployee = () => {
   });
 };
 
-// how to give someone a manager id if they are en employee
-
 const viewDepartment = () => {
   connection.query('SELECT * FROM department', (err, res) => {
     if (err) throw err;
@@ -263,144 +231,20 @@ const viewEmployees = () => {
   });
 };
 
-// const updateEmployeeRole = () => {
-//   // Fetch all employees from the database
-//   connection.query('SELECT * FROM employee', (err, empResults) => {
-//     if (err) throw err;
-//     // Map all of the employees to Inquirer objects
-//     // console.log(empResults)
-//     const empChoice = empResults.map(employee => {
-//       return {
-//         name: `${employee.first_name} ${employee.last_name}`,
-//         value: employee.id
-//       };
-//     });
-//     return empChoice;
-//   })
-//   .then((empChoice) => {
-//     connection.query('SELECT * FROM role', (err, roleResults) => {
-//       if (err) throw err;
-//       // Map all of the roles to Inquirer objects
-//       const roleChoice = roleResults.map(role => {
-//         return {
-//           name: `${role.title}`,
-//           value: `${role.id}`
-//         };
-//       });
-//       console.log(empChoice)
-//       return roleChoice
-//     });
-//   })
-//   .then ((data) => {
-//     console.log(data)
-//     inquirer
-//       .prompt([{
-//         type: 'list',
-//         name: 'employee',
-//         message: 'Please select an employee to update',
-//         choices: 
-//         function (data) {
-//           const empArray = [];
-//           res.forEach(({
-//             first_name, last_name,
-//             id
-//           }) => {
-//             empArray.push({
-//               name: first_name + "," + last_name,
-//               value: id
-//             });
-//           });
-//         },
-//       }])
-//   })
-//   // console.log(employeeChoice)
-
-//   // Fetch all roles from the database
-//   // connection.query('SELECT * FROM role', (err, roleResults) => {
-//   //   if (err) throw err;
-//   //   // Map all of the roles to Inquirer objects
-//   //   const roleChoice = roleResults.map(role => {
-//   //     return {
-//   //       name: `${role.title}`,
-//   //       value: `${role.id}`
-//   //     };
-//   //   });
-//   //   console.log(roleChoice)
-//   // });
-//   // console.log(roleChoice)
-//   // Use Inquirer to ask which employee & role to select (and log responses)
-//   // inquirer
-//   //   .prompt([{
-//   //       type: 'list',
-//   //       name: 'employee',
-//   //       message: 'Please select an employee to update',
-//   //       choices: function (data) {
-
-//           // const empArray = data.reduce(function(result, item, index) {
-//           //   result[index] = item
-//           //   return result 
-//           // })
-
-//           // let empArray = [];
-//           // for (let i = 0; i < data.length; i++) {
-//           //   empArray.push(data[i].name);
-//           // }
-//           // console.log(empArray)
-//           // return empArray
-
-//           // let empArray = []
-//           // data.map((name) => {
-//           //   console.log(name.first_name)
-//           //   empArray.push(name.first_name)
-//           // });
-//           // console.log(empArray)
-//           // return empArray
-
-//           // console.log(empChoice)
-//           // const empArray = [];
-//           // empChoice.map( empChoice => {
-//           //   empArray.push(employee.first_name + ", " + employee.last_name);
-//           //   console.log(employee)
-//           // });
-//           // for (i = 0; i < empChoice.length; i++){
-//           //   console.log(empChoice[i])
-//           // }
-//           // return empChoice[i]
-//       //   },
-//       // },
-//       // {
-//       //   type: 'list',
-//       //   name: 'role',
-//       //   message: 'What new role will this employee hold?',
-//       //   choices: function (roleChoice) {
-//       //     const roleArray = [];
-//       //     res.forEach(({
-//       //       title,
-//       //       id
-//       //     }) => {
-//       //       roleArray.push({
-//       //         name: title,
-//       //         value: id
-//       //       });
-//       //     });
-//           // console.log(results)
-//         //   // console.log(roleArray);
-//         // },
-//       // }
-//     // ])
-
-
-// };
-
 const updateEmployeeRole = () => {
+  let employee;
+
   connection.query('SELECT * FROM employee', (err, empResults) => {
+
     if (err) throw err;
+
     const empChoice = empResults.map(employee => {
       return {
         name: `${employee.first_name} ${employee.last_name}`,
         value: employee.id
       };
     });
+
     inquirer
       .prompt([{
         type: 'list',
@@ -409,7 +253,8 @@ const updateEmployeeRole = () => {
         choices: empChoice
       }])
       .then((data) => {
-        console.log(data)
+        // console.log(data)
+        employee = data.employee;
         connection.query('SELECT * FROM role', (err, roleResults) => {
           if (err) throw err;
           const roleChoice = roleResults.map(role => {
@@ -418,6 +263,7 @@ const updateEmployeeRole = () => {
               value: `${role.id}`
             };
           });
+
           inquirer
             .prompt([{
               type: 'list',
@@ -426,96 +272,26 @@ const updateEmployeeRole = () => {
               choices: roleChoice
             }])
             .then((data) => {
-              console.log(data)
+              // console.log(data)
               connection.query('UPDATE employee SET ? WHERE ?', 
-              [{
-                  // first_name: data.employee,
-                  // last_name: data.lastNam,
-                  // id: parseInt(data.employee),
-                  role_id: data.roleChoice
+              [
+                  {role_id : data.role}
                   
-                },
-                {
-                  id: data.empChoice,
-                  // first_name: data.empChoice,
-                  // last_name: data.empChoice
-                },],
+                ,
+                
+                  {id : employee}
+                ],
                 (err, res) => {
                   if (err) throw err;
-                  console.log(res)
+                  // console.log(res)
                   console.log(`${res.affectedRows} Employee successfully updated!`);
                   start();
                 });
             });
-        })
-        
-      })
-  })
+        });
+      });
+  });
 };
-
-// const updateEmployeeRole = () => {
-//   connection.query('SELECT * FROM employee', (err, empResults) => {
-
-//     if (err) throw err;
-
-//     const empChoice = empResults.map(employee => {
-//       return {
-//         name: `${employee.first_name} ${employee.last_name}`,
-//         value: employee.id
-//       };
-
-//     });
-
-//     return empChoice;
-//   })
-//   .then((empChoice) => {
-//     connection.query('SELECT * FROM role', (err, roleResults) => {
-//       if (err) throw err;
-//       // Map all of the roles to Inquirer objects
-//       const roleChoice = roleResults.map(role => {
-//         return {
-//           name: `${role.title}`,
-//           value: `${role.id}`
-//         };
-//       });
-//       console.log(empChoice)
-//       return roleChoice
-//     });
-//   })
-//   .then ((data) => {
-//     console.log(data)
-//     inquirer
-//       .prompt([{
-//         type: 'list',
-//         name: 'employee',
-//         message: 'Please select an employee to update',
-//         choices: 
-//         function (data) {
-//           const empArray = [];
-//           res.forEach(({
-//             first_name, last_name,
-//             id
-//           }) => {
-//             empArray.push({
-//               name: first_name + "," + last_name,
-//               value: id
-//             });
-//           });
-//         },
-//       }])
-//   })
-
-
-
-
-
-
-
-
-
-
-
-
 
 connection.connect((err) => {
   if (err) throw err;
