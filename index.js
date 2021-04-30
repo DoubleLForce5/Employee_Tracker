@@ -231,6 +231,8 @@ const addEmployee = () => {
   });
 };
 
+// how to give someone a manager id if they are en employee
+
 const viewDepartment = () => {
   connection.query('SELECT * FROM department', (err, res) => {
     if (err) throw err;
@@ -261,100 +263,247 @@ const viewEmployees = () => {
   });
 };
 
+// const updateEmployeeRole = () => {
+//   // Fetch all employees from the database
+//   connection.query('SELECT * FROM employee', (err, empResults) => {
+//     if (err) throw err;
+//     // Map all of the employees to Inquirer objects
+//     // console.log(empResults)
+//     const empChoice = empResults.map(employee => {
+//       return {
+//         name: `${employee.first_name} ${employee.last_name}`,
+//         value: employee.id
+//       };
+//     });
+//     return empChoice;
+//   })
+//   .then((empChoice) => {
+//     connection.query('SELECT * FROM role', (err, roleResults) => {
+//       if (err) throw err;
+//       // Map all of the roles to Inquirer objects
+//       const roleChoice = roleResults.map(role => {
+//         return {
+//           name: `${role.title}`,
+//           value: `${role.id}`
+//         };
+//       });
+//       console.log(empChoice)
+//       return roleChoice
+//     });
+//   })
+//   .then ((data) => {
+//     console.log(data)
+//     inquirer
+//       .prompt([{
+//         type: 'list',
+//         name: 'employee',
+//         message: 'Please select an employee to update',
+//         choices: 
+//         function (data) {
+//           const empArray = [];
+//           res.forEach(({
+//             first_name, last_name,
+//             id
+//           }) => {
+//             empArray.push({
+//               name: first_name + "," + last_name,
+//               value: id
+//             });
+//           });
+//         },
+//       }])
+//   })
+//   // console.log(employeeChoice)
+
+//   // Fetch all roles from the database
+//   // connection.query('SELECT * FROM role', (err, roleResults) => {
+//   //   if (err) throw err;
+//   //   // Map all of the roles to Inquirer objects
+//   //   const roleChoice = roleResults.map(role => {
+//   //     return {
+//   //       name: `${role.title}`,
+//   //       value: `${role.id}`
+//   //     };
+//   //   });
+//   //   console.log(roleChoice)
+//   // });
+//   // console.log(roleChoice)
+//   // Use Inquirer to ask which employee & role to select (and log responses)
+//   // inquirer
+//   //   .prompt([{
+//   //       type: 'list',
+//   //       name: 'employee',
+//   //       message: 'Please select an employee to update',
+//   //       choices: function (data) {
+
+//           // const empArray = data.reduce(function(result, item, index) {
+//           //   result[index] = item
+//           //   return result 
+//           // })
+
+//           // let empArray = [];
+//           // for (let i = 0; i < data.length; i++) {
+//           //   empArray.push(data[i].name);
+//           // }
+//           // console.log(empArray)
+//           // return empArray
+
+//           // let empArray = []
+//           // data.map((name) => {
+//           //   console.log(name.first_name)
+//           //   empArray.push(name.first_name)
+//           // });
+//           // console.log(empArray)
+//           // return empArray
+
+//           // console.log(empChoice)
+//           // const empArray = [];
+//           // empChoice.map( empChoice => {
+//           //   empArray.push(employee.first_name + ", " + employee.last_name);
+//           //   console.log(employee)
+//           // });
+//           // for (i = 0; i < empChoice.length; i++){
+//           //   console.log(empChoice[i])
+//           // }
+//           // return empChoice[i]
+//       //   },
+//       // },
+//       // {
+//       //   type: 'list',
+//       //   name: 'role',
+//       //   message: 'What new role will this employee hold?',
+//       //   choices: function (roleChoice) {
+//       //     const roleArray = [];
+//       //     res.forEach(({
+//       //       title,
+//       //       id
+//       //     }) => {
+//       //       roleArray.push({
+//       //         name: title,
+//       //         value: id
+//       //       });
+//       //     });
+//           // console.log(results)
+//         //   // console.log(roleArray);
+//         // },
+//       // }
+//     // ])
+
+
+// };
+
 const updateEmployeeRole = () => {
-  // Fetch all employees from the database
   connection.query('SELECT * FROM employee', (err, empResults) => {
     if (err) throw err;
-    // Map all of the employees to Inquirer objects
-    // console.log(empResults)
     const empChoice = empResults.map(employee => {
       return {
         name: `${employee.first_name} ${employee.last_name}`,
         value: employee.id
       };
     });
-  console.log(empChoice)
-  });
-  // console.log(employeeChoice)
-
-  // Fetch all roles from the database
-  connection.query('SELECT * FROM role', (err, roleResults) => {
-    if (err) throw err;
-    // Map all of the roles to Inquirer objects
-    const roleChoice = roleResults.map(role => {
-      return {
-        name: `${role.title}`,
-        value: `${role.id}`
-      };
-    });
-    console.log(roleChoice)
-  });
-  // console.log(roleChoice)
-  // Use Inquirer to ask which employee & role to select (and log responses)
-  inquirer 
-    .prompt([{
+    inquirer
+      .prompt([{
         type: 'list',
         name: 'employee',
         message: 'Please select an employee to update',
-        choices: 
-        function (data) {
-
-          // const empArray = data.reduce(function(result, item, index) {
-          //   result[index] = item
-          //   return result 
-          // })
-
-          let empArray = [];
-          for (let i = 0; i < data.length; i++){
-            empArray.push(data[i].name);
-          }
-          console.log(empArray)
-          return empArray
-
-          // let empArray = []
-          // data.map((name) => {
-          //   console.log(name.first_name)
-          //   empArray.push(name.first_name)
-          // });
-          // console.log(empArray)
-          // return empArray
-
-          // console.log(empChoice)
-          // const empArray = [];
-          // empChoice.map( empChoice => {
-          //   empArray.push(employee.first_name + ", " + employee.last_name);
-          //   console.log(employee)
-          // });
-          // for (i = 0; i < empChoice.length; i++){
-          //   console.log(empChoice[i])
-          // }
-          // return empChoice[i]
-          },
-    },
-      {
-        type: 'list',
-        name: 'role',
-        message: 'What new role will this employee hold?',
-        choices: 
-        function (roleChoice) {
-          const roleArray = [];
-          res.forEach(({
-            title,
-            id
-          }) => {
-            roleArray.push({
-              name: title,
-              value: id
-            });
+        choices: empChoice
+      }])
+      .then((data) => {
+        console.log(data)
+        connection.query('SELECT * FROM role', (err, roleResults) => {
+          if (err) throw err;
+          const roleChoice = roleResults.map(role => {
+            return {
+              name: `${role.title}`,
+              value: `${role.id}`
+            };
           });
-          // console.log(results)
-          // console.log(roleArray);
-        },
-      }
-    ])
-   
-    
+          inquirer
+            .prompt([{
+              type: 'list',
+              name: 'role',
+              message: 'Please select a new role for this employee',
+              choices: roleChoice
+            }])
+            .then((data) => {
+              console.log(data)
+              connection.query('UPDATE employee SET ? WHERE ?', 
+              [{
+                  // first_name: data.employee,
+                  // last_name: data.lastNam,
+                  // id: parseInt(data.employee),
+                  role_id: data.roleChoice
+                  
+                },
+                {
+                  id: data.empChoice,
+                  // first_name: data.empChoice,
+                  // last_name: data.empChoice
+                },],
+                (err, res) => {
+                  if (err) throw err;
+                  console.log(res)
+                  console.log(`${res.affectedRows} Employee successfully updated!`);
+                  start();
+                });
+            });
+        })
+        
+      })
+  })
 };
+
+// const updateEmployeeRole = () => {
+//   connection.query('SELECT * FROM employee', (err, empResults) => {
+
+//     if (err) throw err;
+
+//     const empChoice = empResults.map(employee => {
+//       return {
+//         name: `${employee.first_name} ${employee.last_name}`,
+//         value: employee.id
+//       };
+
+//     });
+
+//     return empChoice;
+//   })
+//   .then((empChoice) => {
+//     connection.query('SELECT * FROM role', (err, roleResults) => {
+//       if (err) throw err;
+//       // Map all of the roles to Inquirer objects
+//       const roleChoice = roleResults.map(role => {
+//         return {
+//           name: `${role.title}`,
+//           value: `${role.id}`
+//         };
+//       });
+//       console.log(empChoice)
+//       return roleChoice
+//     });
+//   })
+//   .then ((data) => {
+//     console.log(data)
+//     inquirer
+//       .prompt([{
+//         type: 'list',
+//         name: 'employee',
+//         message: 'Please select an employee to update',
+//         choices: 
+//         function (data) {
+//           const empArray = [];
+//           res.forEach(({
+//             first_name, last_name,
+//             id
+//           }) => {
+//             empArray.push({
+//               name: first_name + "," + last_name,
+//               value: id
+//             });
+//           });
+//         },
+//       }])
+//   })
 
 
 
