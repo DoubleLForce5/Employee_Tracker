@@ -273,7 +273,7 @@ const updateEmployeeRole = () => {
         value: employee.id
       };
     });
-    console.log(empChoice)
+  console.log(empChoice)
   });
   // console.log(employeeChoice)
 
@@ -310,7 +310,7 @@ const updateEmployeeRole = () => {
           }
           console.log(empArray)
           return empArray
-          
+
           // let empArray = []
           // data.map((name) => {
           //   console.log(name.first_name)
@@ -318,7 +318,6 @@ const updateEmployeeRole = () => {
           // });
           // console.log(empArray)
           // return empArray
-
 
           // console.log(empChoice)
           // const empArray = [];
