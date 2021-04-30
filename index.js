@@ -263,11 +263,11 @@ const viewEmployees = () => {
 
 const updateEmployeeRole = () => {
   // Fetch all employees from the database
-  const empSelected = connection.query('SELECT * FROM employee', (err, empResults) => {
+  connection.query('SELECT * FROM employee', (err, empResults) => {
     if (err) throw err;
     // Map all of the employees to Inquirer objects
-    console.log(empResults)
-    let empChoice = empResults.map(employee => {
+    // console.log(empResults)
+    const empChoice = empResults.map(employee => {
       return {
         name: `${employee.first_name} ${employee.last_name}`,
         value: employee.id
@@ -278,10 +278,10 @@ const updateEmployeeRole = () => {
   // console.log(employeeChoice)
 
   // Fetch all roles from the database
-  const roleSelected = connection.query('SELECT * FROM role', (err, roleResults) => {
+  connection.query('SELECT * FROM role', (err, roleResults) => {
     if (err) throw err;
     // Map all of the roles to Inquirer objects
-    let roleChoice = roleResults.map(role => {
+    const roleChoice = roleResults.map(role => {
       return {
         name: `${role.title}`,
         value: `${role.id}`
@@ -291,29 +291,55 @@ const updateEmployeeRole = () => {
   });
   // console.log(roleChoice)
   // Use Inquirer to ask which employee & role to select (and log responses)
-  inquirer
+  inquirer 
     .prompt([{
         type: 'list',
         name: 'employee',
         message: 'Please select an employee to update',
-        choices: ,
-        // function () {
-        //   const empArray = [];
-        //   empChoice.forEach((employee) => {
-        //     empArray.push(employee.first_name + ", " + employee.last_name);
-        //   });
+        choices: 
+        function (data) {
+
+          // const empArray = data.reduce(function(result, item, index) {
+          //   result[index] = item
+          //   return result 
+          // })
+
+          let empArray = [];
+          for (let i = 0; i < data.length; i++){
+            empArray.push(data[i].name);
+          }
+          console.log(empArray)
+          return empArray
+          
+          // let empArray = []
+          // data.map((name) => {
+          //   console.log(name.first_name)
+          //   empArray.push(name.first_name)
+          // });
           // console.log(empArray)
-          // console.log(empArray)
-        // }
-      },
+          // return empArray
+
+
+          // console.log(empChoice)
+          // const empArray = [];
+          // empChoice.map( empChoice => {
+          //   empArray.push(employee.first_name + ", " + employee.last_name);
+          //   console.log(employee)
+          // });
+          // for (i = 0; i < empChoice.length; i++){
+          //   console.log(empChoice[i])
+          // }
+          // return empChoice[i]
+          },
+    },
       {
         type: 'list',
         name: 'role',
         message: 'What new role will this employee hold?',
         choices: 
-        function () {
+        function (roleChoice) {
           const roleArray = [];
-          roleChoice.forEach(({
+          res.forEach(({
             title,
             id
           }) => {
@@ -330,10 +356,6 @@ const updateEmployeeRole = () => {
    
     
 };
-
-
-
-
 
 
 
