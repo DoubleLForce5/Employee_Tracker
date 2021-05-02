@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
   // Your username
   user: 'root',
 
-  // Your password
+  // Your password - this is my temp password for this DB please enter your password so it works with you mysql database
   password: 'password',
   database: 'employee_trackerDB',
 });
@@ -117,7 +117,6 @@ const addRole = () => {
                 value: id
               });
             });
-            // console.log(deptArray);
             return deptArray;
           },
         },
@@ -133,7 +132,6 @@ const addRole = () => {
         },
       ])
       .then((answer) => {
-        // console.log(answer)
         connection.query('INSERT INTO role SET ?', {
             title: answer.title,
             salary: answer.salary,
@@ -163,62 +161,61 @@ const addEmployee = () => {
     inquirer
       .prompt([{
         type: 'list',
-        name: 'manager', 
+        name: 'manager',
         message: 'Who will be this employees manager?',
         choices: managerChoice
       }])
-      .then ((data) => {
+      .then((data) => {
         manager = data.manager
 
         connection.query('SELECT * FROM role',
-        (err, results) => {
-          if (err) throw err;
-          inquirer
-            .prompt([
-            {
-              type: 'list',
-              name: 'role',
-              message: 'What role will this employee hold?',
-              choices: function () {
-                const roleArray = [];
-                results.forEach(({
-                  title,
-                  id
-                }) => {
-                  roleArray.push({
-                    name: title,
-                    value: id
+          (err, results) => {
+            if (err) throw err;
+            inquirer
+              .prompt([{
+                  type: 'list',
+                  name: 'role',
+                  message: 'What role will this employee hold?',
+                  choices: function () {
+                    const roleArray = [];
+                    results.forEach(({
+                      title,
+                      id
+                    }) => {
+                      roleArray.push({
+                        name: title,
+                        value: id
+                      });
+                    });
+                    return roleArray
+                  },
+
+                },
+                {
+                  type: 'input',
+                  name: 'firstName',
+                  message: 'What is the first name of the employee you are adding?'
+                },
+                {
+                  type: 'input',
+                  name: 'lastName',
+                  message: 'What is the last name of the employee you are adding?'
+                }
+              ])
+              .then((answer) => {
+                connection.query('INSERT INTO employee SET ?', {
+                    first_name: answer.firstName,
+                    last_name: answer.lastName,
+                    role_id: answer.role,
+                    manager_id: manager
+                  },
+                  (err, res) => {
+                    if (err) throw err;
+                    console.log('Employee successfully added!');
+                    start();
                   });
-                });
-                return roleArray
-              },
-              
-            },
-            {
-              type: 'input',
-              name: 'firstName',
-              message: 'What is the first name of the employee you are adding?'
-            },
-            {
-              type: 'input',
-              name: 'lastName',
-              message: 'What is the last name of the employee you are adding?'
-            }
-          ])
-          .then((answer) => {
-            connection.query('INSERT INTO employee SET ?', {
-              first_name: answer.firstName,
-              last_name: answer.lastName,
-              role_id: answer.role,
-              manager_id: manager
-            },
-            (err, res) => {
-              if (err) throw err;
-              console.log('Employee successfully added!');
-              start();
-            });
+              });
           });
-        });
       });
   });
 };
@@ -276,7 +273,6 @@ const updateEmployeeRole = () => {
         choices: empChoice
       }])
       .then((data) => {
-        // console.log(data)
         employee = data.employee;
         connection.query('SELECT * FROM role', (err, roleResults) => {
           if (err) throw err;
@@ -294,41 +290,40 @@ const updateEmployeeRole = () => {
               message: 'Please select a new role for this employee',
               choices: roleChoice
             }])
-            .then ((data) => {
+            .then((data) => {
               role = data.role;
               connection.query('SELECT * FROM employee WHERE manager_id IS NULL', (err, managerResults) => {
                 if (err) throw err;
-                
-                const managerChoice = managerResults.map
-                (employee => {
-                    return {
-                      name: `${employee.first_name} ${employee.last_name}`,
-                      value: employee.id
-                    };
-                  })
-                  inquirer
-                    .prompt([{
-                      type: 'list',
-                      name: 'manager', 
-                      message: 'Who will be this employees manager?',
-                      choices: managerChoice
-                    }])
-                    .then((data) => {
-                      connection.query('UPDATE employee SET ? WHERE ?', 
+
+                const managerChoice = managerResults.map(employee => {
+                  return {
+                    name: `${employee.first_name} ${employee.last_name}`,
+                    value: employee.id
+                  };
+                })
+                inquirer
+                  .prompt([{
+                    type: 'list',
+                    name: 'manager',
+                    message: 'Who will be this employees manager?',
+                    choices: managerChoice
+                  }])
+                  .then((data) => {
+                    connection.query('UPDATE employee SET ? WHERE ?',
                       [{
-                        role_id: role,
-                        manager_id: data.manager
-                      },
-                      {
-                        id: employee
-                      }
+                          role_id: role,
+                          manager_id: data.manager
+                        },
+                        {
+                          id: employee
+                        }
                       ],
                       (err, res) => {
                         if (err) throw err;
                         console.log(`${res.affectedRows} Employee successfully updated!`);
-                      start();
+                        start();
                       });
-                    });
+                  });
               });
             });
         });
