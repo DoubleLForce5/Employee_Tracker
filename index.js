@@ -148,85 +148,207 @@ const addRole = () => {
   });
 };
 
+
+
 // connection.query('SELECT * FROM employee', (err, managers) => { 
 //   choices: [{ value: 'NULL', name: 'None', {} ............ }]
 
+// const addEmployee = () => {
+//     let manager;
+
+//     connection.query('SELECT * FROM employee WHERE manager_id IS NULL', (err, managerResults) => {
+//           if (err) throw err;
+//           const managerChoice = managerResults.map(employee => {
+//             return {
+//               name: `${employee.first_name} ${employee.last_name}`,
+//               value: employee.id
+//             };
+//           });
+//           inquirer
+//             .prompt([{
+//               type: 'list ',
+//               name: 'manager',
+//               message: 'Who will be this employees manager',
+//               choices: managerChoice
+//             }])
+//             .then((data) => {
+//               manager = data.manager
+
+//               connection.query('SELECT * FROM role', (err, results) => {
+//                 if (err) throw err;
+//                 inquirer
+//                   .prompt([{
+//                       type: 'list',
+//                       name: 'role',
+//                       message: 'What role will this employee hold?',
+//                       choices: function () {
+//                         const roleArray = [];
+//                         results.forEach(({
+//                           title,
+//                           id
+//                         }) => {
+//                           roleArray.push({
+//                             name: title,
+//                             value: id
+//                           });
+//                         });
+//                         return roleArray;
+//                       },
+//                     },
+//                     {
+//                       type: 'input',
+//                       name: 'firstName',
+//                       message: 'What is the first name of the employee you are adding?'
+//                     },
+//                     {
+//                       type: 'input',
+//                       name: 'lastName',
+//                       message: 'What is the last name of the employee you are adding?'
+//                     },
+//                   ])
+//                   .then((answer) => {
+//                     console.log(answer)
+//                     connection.query('INSERT INTO employee SET ?', {
+//                         first_name: answer.firstName,
+//                         last_name: answer.lastName,
+//                         role_id: answer.role
+//                       },
+//                       (err, res) => {
+//                         if (err) throw err;
+//                         console.log('Employee successfully add!');
+//                         start();
+//                       });
+//                   });
+//               });
+//             });
+//         }
+
 const addEmployee = () => {
+  let manager;
 
-  connection.query('SELECT * FROM employee', (err, managerResults) => {
-
+  connection.query('SELECT * FROM employee WHERE manager_id IS NULL', (err, managerResults) => {
     if (err) throw err;
 
     const managerChoice = managerResults.map(employee => {
       return {
         name: `${employee.first_name} ${employee.last_name}`,
-        value: employee.manager_id
+        value: employee.id
       };
     });
-    if (managerChoice == null){
-      return `${employee.first_name} ${employee.last_name}`
-    } else err
-
-    console.log(managerChoice)
-
     inquirer
       .prompt([{
-        type: 'list ', 
-        name: 'manager',
-        message: 'Who will be this employees manager', 
+        type: 'list',
+        name: 'manager', 
+        message: 'Who will be this employees manager?',
         choices: managerChoice
       }])
-  })
+      .then ((data) => {
+        manager = data.manager
 
-  connection.query('SELECT * FROM role', (err, results) => {
-    if (err) throw err;
-    inquirer
-      .prompt([{
-          type: 'list',
-          name: 'role',
-          message: 'What role will this employee hold?',
-          choices: function () {
-            const roleArray = [];
-            results.forEach(({
-              title,
-              id
-            }) => {
-              roleArray.push({
-                name: title,
-                value: id
-              });
+        connection.query('SELECT * FROM role',
+        (err, results) => {
+          if (err) throw err;
+          inquirer
+            .prompt([
+            {
+              type: 'list',
+              name: 'role',
+              message: 'What role will this employee hold?',
+              choices: function () {
+                const roleArray = [];
+                results.forEach(({
+                  title,
+                  id
+                }) => {
+                  roleArray.push({
+                    name: title,
+                    value: id
+                  });
+                });
+                return roleArray
+              },
+              
+            },
+            {
+              type: 'input',
+              name: 'firstName',
+              message: 'What is the first name of the employee you are adding?'
+            },
+            {
+              type: 'input',
+              name: 'lastName',
+              message: 'What is the last name of the employee you are adding?'
+            }
+          ])
+          .then((answer) => {
+            connection.query('INSERT INTO employee SET ?', {
+              first_name: answer.firstName,
+              last_name: answer.lastName,
+              role_id: answer.role,
+              manager_id: manager
+            },
+            (err, res) => {
+              if (err) throw err;
+              console.log('Employee successfully added!');
+              start();
             });
-            // console.log(results)
-            return roleArray;
-          },
-
-        },
-        {
-          type: 'input',
-          name: 'firstName',
-          message: 'What is the first name of the employee you are adding?'
-        },
-        {
-          type: 'input',
-          name: 'lastName',
-          message: 'What is the last name of the employee you are adding?'
-        },
-      ])
-      .then((answer) => {
-        console.log(answer)
-        connection.query('INSERT INTO employee SET ?', {
-            first_name: answer.firstName,
-            last_name: answer.lastName,
-            role_id: answer.role
-          },
-          (err, res) => {
-            if (err) throw err;
-            console.log('Employee successfully add!');
-            start();
           });
+        });
       });
   });
 };
+
+
+
+//   connection.query('SELECT * FROM role', (err, results) => {
+//     if (err) throw err;
+//     inquirer
+//       .prompt([{
+//           type: 'list',
+//           name: 'role',
+//           message: 'What role will this employee hold?',
+//           choices: function () {
+//             const roleArray = [];
+//             results.forEach(({
+//               title,
+//               id
+//             }) => {
+//               roleArray.push({
+//                 name: title,
+//                 value: id
+//               });
+//             });
+//             // console.log(results)
+//             return roleArray;
+//           },
+
+//         },
+//         {
+//           type: 'input',
+//           name: 'firstName',
+//           message: 'What is the first name of the employee you are adding?'
+//         },
+//         {
+//           type: 'input',
+//           name: 'lastName',
+//           message: 'What is the last name of the employee you are adding?'
+//         },
+//       ])
+//       .then((answer) => {
+//         console.log(answer)
+//         connection.query('INSERT INTO employee SET ?', {
+//             first_name: answer.firstName,
+//             last_name: answer.lastName,
+//             role_id: answer.role
+//           },
+//           (err, res) => {
+//             if (err) throw err;
+//             console.log('Employee successfully add!');
+//             start();
+//           });
+//       });
+//   });
+// };
 
 // const addEmployee = () => {
 
@@ -354,13 +476,16 @@ const updateEmployeeRole = () => {
             }])
             .then((data) => {
               // console.log(data)
-              connection.query('UPDATE employee SET ? WHERE ?', 
-              [
-                  {role_id : data.role}
-                  
-                ,
-                
-                  {id : employee}
+              connection.query('UPDATE employee SET ? WHERE ?',
+                [{
+                    role_id: data.role
+                  }
+
+                  ,
+
+                  {
+                    id: employee
+                  }
                 ],
                 (err, res) => {
                   if (err) throw err;
