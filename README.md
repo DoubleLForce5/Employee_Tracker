@@ -14,7 +14,7 @@ This application was created to give managers the ability to perform the followi
 - Upon completion of the installation mentioned above, type 'node index.js' into the terminal, hit enter,and you will begin to receive a series of prompts.
 
 ## Video Demonstration
-[video demonstration: employee tracker](https://drive.google.com/file/d/1m2fWd8Ad24S7mneEwJtvwepi6vXz_Lzz/view?usp=sharing)
+[Click this link to view the video demonstration of the employee tracker](https://drive.google.com/file/d/1m2fWd8Ad24S7mneEwJtvwepi6vXz_Lzz/view?usp=sharing)
 
 ## Tech Used: 
 - Mysql
