@@ -17,7 +17,7 @@ This application was created to give managers the ability to perform the followi
 [video demonstration: employee tracker]()
 
 ## Tech Used: 
-- mysql
+- Mysql
 - Node.js 
 - Inquirer package
 - Javascript 
