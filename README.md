@@ -45,5 +45,5 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-## Questions:
+## Questions
 Contact me @ https://github.com/DoubleLForce5 and/or lopez.olivia17@outlook.com 
