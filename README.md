@@ -15,7 +15,7 @@ This application was created to give managers the ability to perform the followi
 
 ![Screen Shot 2021-06-22 at 10 38 12 AM](https://user-images.githubusercontent.com/73543476/122955788-0893af80-d346-11eb-9967-3aa0b3620a4b.png)
 
-## Video Demonstration
+## Video demonstration
 [Click here for a demo of this application](https://drive.google.com/file/d/1m2fWd8Ad24S7mneEwJtvwepi6vXz_Lzz/view?usp=sharing)
 
 ## Tech  
