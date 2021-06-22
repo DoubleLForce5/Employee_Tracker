@@ -1,22 +1,24 @@
 # Employee Tracker
 
-## Description:
+## Description
 This application was created to give managers the ability to perform the following task:
 - Add departments, roles, and employees 
 - View departments, roles, and employees 
 - Update employee roles 
 
-## Installation / Usage Instructions: 
+## Installation / Usage instructions
 - To utilize this application you will need Node.js.
 - Clone this repository and open it within VS Code or any text editor of your choosing.
 - Right click on the index.js file within your explorer dock and select "open in integrated terminal"
 - In your terminal type 'NPM install' and hit enter. 
 - Upon completion of the installation mentioned above, type 'node index.js' into the terminal, hit enter,and you will begin to receive a series of prompts.
 
+![Screen Shot 2021-06-22 at 10 38 12 AM](https://user-images.githubusercontent.com/73543476/122955788-0893af80-d346-11eb-9967-3aa0b3620a4b.png)
+
 ## Video Demonstration
 [Click here for a demo of this application](https://drive.google.com/file/d/1m2fWd8Ad24S7mneEwJtvwepi6vXz_Lzz/view?usp=sharing)
 
-## Tech Used: 
+## Tech  
 - Mysql
 - Node.js 
 - Inquirer package
